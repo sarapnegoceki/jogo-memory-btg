@@ -1,8 +1,12 @@
 <script setup>
-const player = localStorage.getItem('player') || '';
+import { ref } from 'vue';
+
+const emit = defineEmits(['update:setPlayerName']);
+const playerName = ref(localStorage.getItem('player') || '');
 
 function setPlayerName() {
-    localStorage.setItem('player', this.player);
+    localStorage.setItem('player', playerName.value);
+    emit('update:setPlayerName');
 }
 </script>
 
@@ -10,13 +14,13 @@ function setPlayerName() {
     <div>
         <form @submit.prevent="setPlayerName()">
             <label for="player">What's your name?</label>
-            <input type="text" name="player" id="player" v-model="player">
-            <button type="submit">OK</button>
+            <input type="text" name="player" id="player" v-model="playerName">
+            <button type="submit">Start</button>
         </form>
     </div>
 </template>
 
-<style>
+<style scoped>
     label {
         font-size: 20px;
         font-weight: bold;
